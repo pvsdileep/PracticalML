@@ -94,5 +94,5 @@ E	|	0	|	0	|	2	|	0	|	358	|
     
     + Plot variable importance to understand which feature is contributing in prediciton. Number of features can be trimmed according to the order of importance for better performance. If image doesn't appear [click HERE](https://github.com/pvsdileep/PracticalML/blob/master/varImp.png).
     
-    ![image](https://drive.google.com/file/d/0B1_IOr9yCZu-NzVMWHdFZkZ6YlE/view?usp=sharing)
+    <img src="https://raw.githubusercontent.com/pvsdileep/PracticalML/master/varImp.png" />
 
