@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>PracticalML by pvsdileep</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">PracticalML</h1>
+      <h2 class="project-tagline">PracticalML - Submission</h2>
+      <a href="https://github.com/pvsdileep/PracticalML" class="btn">View on GitHub</a>
+      <a href="https://github.com/pvsdileep/PracticalML/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/pvsdileep/PracticalML/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <hr>
+
+<p>title: "PracticalML"
+author: "Dileep Pasumarthi"
+date: "Saturday, June 20, 2015"</p>
+
+<h2>
+<a id="output-html_document" class="anchor" href="#output-html_document" aria-hidden="true"><span class="octicon octicon-link"></span></a>output: html_document</h2>
+
+<h2>
+<a id="problem-statement" class="anchor" href="#problem-statement" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problem Statement</h2>
+
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://groupware.les.inf.puc-rio.br/har">http://groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset). </p>
+
+<h2>
+<a id="approach" class="anchor" href="#approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>Approach</h2>
+
+<p>Building ML model included following steps</p>
+
+<ol>
+<li>
+<p><strong>Feature Selection</strong></p>
+
+<ul>
+<li>
+<p>Removing insignificant columns
+Few columns like <em>user_name</em>, <em>raw_timestamp_part_1</em>, <em>new_window</em> etc don't add any value to the data set. These columns which are less significant are removed(code below).</p>
+
+<p><code>
+training &lt;- subset(training,select = -c(X,user_name,raw_timestamp_part_1,raw_timestamp_part_2,cvtd_timestamp,new_window,num_window))
+</code></p>
+</li>
+<li>
+<p>Removing columns in which 90% of data is NA or empty</p>
+
+<p><code>
+training &lt;- training[,colSums(is.na(training)) &lt;= nrow(training)*.9]
+</code>
+<code>
+training &lt;- training[,colSums(training != "") &gt;= nrow(training)*.9]
+</code></p>
+</li>
+</ul>
+
+<p>After this process data set has 53 features.</p>
+</li>
+<li>
+<p><strong>Validation Set</strong></p>
+
+<ul>
+<li>
+<p>Created validation set with 10% of training set.</p>
+
+<p><code>
+  inTrain &lt;- createDataPartition(training$classe,p=0.9,list=FALSE)
+</code>
+<code>
+  valid &lt;- training[-inTrain,]
+</code>
+<code>
+  train &lt;- training[inTrain,]
+</code></p>
+</li>
+<li>I have also created another validation set with 10% of training set(helps in cross verification of results)</li>
+</ul>
+</li>
+<li>
+<p><strong>Parallelize the process</strong></p>
+
+<ul>
+<li>Training the model is computationally intensive process and it takes lot of time. Enabling parallel processing helps in reducing training time.
+<code>
+  library(doParallel)
+</code>
+<code>
+  cl &lt;- makeCluster(detectCores())
+</code>
+<code>
+  registerDoParallel(cl)
+</code>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>PreProcessing and Training the model</strong></p>
+
+<ul>
+<li>
+<p>I have used <strong>repeatedcv</strong> with 3 folds and 5 repeatitions for better performance. </p>
+
+<p><code>
+tc &lt;- trainControl("repeatedcv", number=3, repeats=5, classProbs=TRUE, savePred=T) 
+</code></p>
+</li>
+<li>
+<p>Built a model using <strong>Random Forest</strong> method with above <strong>trainControl</strong> parameters. Training data is preProcessed with <strong>center &amp; scale</strong> method</p>
+
+<p><code>
+modFitTC &lt;- train(train1$classe ~.,data = train1,method="rf",trControl = tc, preProcess = c("center","scale"))
+</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Results</strong></p>
+
+<ul>
+<li>Following are the results on validation set</li>
+</ul>
+
+<div class="highlight highlight-r"><pre>read.csv(<span class="pl-v">file</span><span class="pl-k">=</span><span class="pl-s"><span class="pl-pds">"</span>result.csv<span class="pl-pds">"</span></span>,<span class="pl-v">header</span> <span class="pl-k">=</span> <span class="pl-c1">TRUE</span>)</pre></div>
+</li>
+<li>
+<p><strong>Variable Importance</strong></p>
+
+<ul>
+<li>Plot variable importance to understand which feature is contributing in prediciton. Number of features can be trimmed according to the order of importance for better performance.</li>
+</ul>
+
+<p><img src="varImp.png"></p>
+</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/pvsdileep/PracticalML">PracticalML</a> is maintained by <a href="https://github.com/pvsdileep">pvsdileep</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
