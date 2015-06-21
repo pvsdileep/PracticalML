@@ -80,13 +80,13 @@ Building ML model included following steps
 
     + Following are the results on validation set. If result doesn't appear [click HERE](https://github.com/pvsdileep/PracticalML/blob/master/result.csv).
     
-r/c   |	A	|	B	|	C	|	D	|	E	|
-----|-------|-------|-------|-------|-------|
-A	|	556	|	1	|	1	|	0	|	0	|
-B	|	3	|	376	|	0	|	0	|	0	|
-C	|	0	|	3	|	339	|	0	|	0	|
-D	|	0	|	0	|	2	|	318	|	1	|
-E	|	0	|	0	|	2	|	0	|	358	|
+      r/c   |	A	|	B	|	C	|	D	|	E	|
+      ----|-------|-------|-------|-------|-------|
+      A	|	556	|	1	|	1	|	0	|	0	|
+      B	|	3	|	376	|	0	|	0	|	0	|
+      C	|	0	|	3	|	339	|	0	|	0	|
+      D	|	0	|	0	|	2	|	318	|	1	|
+      E	|	0	|	0	|	2	|	0	|	358	|
 
 
     
