@@ -82,3 +82,9 @@ Building ML model included following steps
     ```{r}
     read.csv(file="result.csv",header = TRUE)
     ```
+    
+6. **Variable Importance**
+    
+    + Plot variable importance to understand which feature is contributing in prediciton. Number of features can be trimmed according to the order of importance for better performance.
+    
+    <img src="varImp.png"/>
