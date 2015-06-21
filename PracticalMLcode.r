@@ -17,7 +17,7 @@ registerDoParallel(cl)
 
 
 tc <- trainControl("repeatedcv", number=3, repeats=5, classProbs=TRUE, savePred=T) 
-modFitTC <- train(train1$classe ~.,data = train1,method="rf",trControl = tc, preProcess = c("center","scale"))
+modFitTC <- train(train$classe ~.,data = train,method="rf",trControl = tc, preProcess = c("center","scale"))
 
 result <- table(valid$classe,predict(modFitTC,valid))
 
