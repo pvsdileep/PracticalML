@@ -78,13 +78,21 @@ Building ML model included following steps
   
 5. **Results**
 
-    + Following are the results on validation set
-    ```{r}
-    read.csv(file="result.csv",header = TRUE)
-    ```
+    + Following are the results on validation set. If result doesn't appear [click HERE](https://github.com/pvsdileep/PracticalML/blob/master/result.csv).
+    
+r/c   |	A	|	B	|	C	|	D	|	E	|
+----|-------|-------|-------|-------|-------|
+A	|	556	|	1	|	1	|	0	|	0	|
+B	|	3	|	376	|	0	|	0	|	0	|
+C	|	0	|	3	|	339	|	0	|	0	|
+D	|	0	|	0	|	2	|	318	|	1	|
+E	|	0	|	0	|	2	|	0	|	358	|
+
+
     
 6. **Variable Importance**
     
-    + Plot variable importance to understand which feature is contributing in prediciton. Number of features can be trimmed according to the order of importance for better performance.
+    + Plot variable importance to understand which feature is contributing in prediciton. Number of features can be trimmed according to the order of importance for better performance. If image doesn't appear [click HERE](https://github.com/pvsdileep/PracticalML/blob/master/varImp.png).
     
-    <img src="varImp.png"/>
+    ![image](https://drive.google.com/file/d/0B1_IOr9yCZu-NzVMWHdFZkZ6YlE/view?usp=sharing)
+
